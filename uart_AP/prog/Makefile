@@ -1,5 +1,4 @@
 # Build the executable program named uart_AP
-
 PROG1 = uart_AP
 PROGOBJ = main.o
 LIB1 = ./../lib/lib.a

@@ -1,4 +1,4 @@
-# build the library from source files
+# Build the library from source files
 
 OBJS = ApFunc1.o
 LIB1 = lib.a

@@ -1,14 +1,14 @@
 #top_level makefile to build all.
 
-DEPAND1 = lib
-DEPAND2 = prog
-DEPAND3 = include
+DEPEND1 = lib
+DEPEND2 = prog
+DEPEND3 = include
 
-all: $(DEPAND1) $(DEPAND2) $(DEPAND3)
-	(cd $(DEPAND1); make)
-	(cd $(DEPAND2); make)
+all: $(DEPEND1) $(DEPEND2) $(DEPEND3)
+	(cd $(DEPEND1); make)
+	(cd $(DEPEND2); make)
 
 clean:
-	(cd $(DEPAND1); make clean)
-	(cd $(DEPAND2); make clean)
+	(cd $(DEPEND1); make clean)
+	(cd $(DEPEND2); make clean)
 	

@@ -1,20 +1,8 @@
-#include<stdio.h>
-#include<sys/socket.h>
-#include<netinet/in.h>
-#include<errno.h>
-#include<string.h>
-#include<unistd.h>
-#include<pthread.h>
-#include<arpa/inet.h>
+#include "header.h"
 
-#define MAX_LISTEN 100
-#define BUF_SIZE 256
-#define SECOND 1000000
-
-static char buf[BUF_SIZE];
-static int i=0;
-static int SD;
-static struct sockaddr_in serverIp, remoteIp[MAX_LISTEN];
+char buf[BUF_SIZE];
+int SD;
+struct sockaddr_in serverIp;
 
 void *pthFunRD(void *arg){
 	printf("%s: pthRead\n", __func__);
@@ -46,24 +34,9 @@ int main(int argc, char* argv[]){
 	socklen_t serverLen, remoteLen;
 	pthread_t pthWrite, pthRead;
 	
-
 	/* Initialize the socket */ 
-	SD=socket(AF_INET, SOCK_STREAM, 0);
-	if(SD<0){
-		printf("%s: socket() was failed, errno=%d\n", __func__, errno);
-		return errno;
-	}
-	
-	/* Socket seting  */
-	serverIp.sin_family=AF_INET;
-	serverIp.sin_port=htons(argc);
-	serverIp.sin_addr.s_addr=inet_addr(argv);
-	memset(serverIp.sin_zero, 0, 8);
-	
-	/* Connect with server */
-	ret=connect(SD, (struct sockaddr *)&serverIp, sizeof(struct sockaddr));
-	if(ret<0){
-		printf("%s: bind() was failed, errno=%d\n", __func__, errno);
+	ret=clientInit(7777, 0);
+	if(ret){
 		goto err;
 	}
 	/* Create a new thread for read */	
@@ -81,8 +54,7 @@ int main(int argc, char* argv[]){
 	
 	ret=pthread_join(pthRead, (void *)&(rval));
 	ret=pthread_join(pthWrite, (void *)&(rval));
-	
-	
+		
 	close(SD);
 	return 0;
 
@@ -92,9 +64,11 @@ err:
 }
 
 
+
+
 /**
 	int pthread_create (pthread_t * thread, pthread_attr_t * attr, void * (*start_routine)(void *), void * arg) 
-  */
+*/
 
 
 /**
